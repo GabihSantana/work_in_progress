@@ -124,7 +124,6 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    // Cria a tabela com o nome correto
     printf("CREATE TABLE %s (\n", basename_ptr); // Usando basename_ptr
     for (int i = 0; i < num_columns; i++) {
         printf("\t%s TEXT", escape_string(column_names[i]));
@@ -134,35 +133,38 @@ int main(int argc, char *argv[]) {
 
     int count = 0;
     while (fgets(row, MAX_ROW_LENGTH, fp) != NULL) {
-        if(count==0){
-            printf("INSERT INTO %s VALUES ", basename_ptr); // Usando basename_ptr
-        }
-        count++;
-        printf("(");
-        char *token = strtok(row, ";");
-        for (int i = 0; i < num_columns; i++) {
-            if (token != NULL) {
-                int len = strlen(token);
-                if (len > 2 && token[0] == '"' && token[len - 1] == '"') {
-                    token[len - 1] = '\0';
-                    token++;
-                }
-                printf("'%s'", escape_string(token));
-                token = strtok(NULL, ";");
-            } else {
-                printf("''");
-            }
-            if (i < num_columns - 1) {
-                printf(", ");
-            }
-        }
-        if((count == 100)){
-            printf( ");\n" );
-            count = 0;
-        } else {
-            printf( "),\n");
-        }
-    }
+		if (count == 0) {
+			printf("INSERT INTO %s VALUES ", basename_ptr); 
+		}
+		count++;
+		printf("(");
+		char *token, *rest = row;
+		for (int i = 0; i < num_columns; i++) {
+			token = strsep(&rest, ";"); // strsep() para não pular campos vazios
+			
+			if (token != NULL && strlen(token) > 0) {
+				int len = strlen(token);
+				if (len > 2 && token[0] == '"' && token[len - 1] == '"') {
+					token[len - 1] = '\0';
+					token++;
+				}
+				printf("'%s'", escape_string(token));
+			} else {
+				printf("''"); 
+			}
+
+			if (i < num_columns - 1) {
+				printf(", ");
+			}
+		}
+
+		if (count == 100) {
+			printf(");\n");
+			count = 0;
+		} else {
+			printf("),\n");
+		}
+	}
     
     printf("(");
     for (int i = 0; i < num_columns; i++) {
