@@ -1,76 +1,272 @@
--- Explorando a Tabela CID
-use cid10;
+-- Configuração do schema
 
-select * from cid_capitulo limit 5;
-SELECT COUNT(id)qtd from cid_capitulo; -- 22
+-- SCHEMA CID
+USE cid10;
 
-select * from cid_categoria limit 5;
-SELECT COUNT(id)qtd from cid_categoria limit 5; -- 1.775
+-- Tabela de Capitulo CID *************************************************************************************
+SELECT * 
+	FROM cid_capitulo 
+    LIMIT 5;
+    
+SELECT COUNT(id)qtd 
+	FROM cid_capitulo; 
+-- 22
+    
+-- A ferramenta Explain Analyze analisa o plano de execução de uma consulta SQL
+-- Executa a consulta e retorna estatísticas detalhadas sobre tempo de execução e uso de recursos
+-- Essa análise ajuda a identificar gargalos e otimizar consultas
 
-select * from cid_grupo limit 5;
-SELECT COUNT(id)qtd from cid_grupo limit 5; -- 275
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM cid_capitulo 
+		WHERE cat_inicio = 'F00';
+-- O Explain Analyze nessa busca retornou uma execução rápida e pouco loops. Como a tabela é pequena, o index não será necessário.
 
-select * from cid_sub_categoria limit 5;
-SELECT COUNT(id)qtd from cid_sub_categoria limit 5; -- 8.350
 
-SHOW INDEXES FROM cid_capitulo;
+-- Tabela de Categoria dos CIDs **************************************************************************************
+SELECT * 
+	FROM cid_categoria 
+    LIMIT 5;
+    
+SELECT COUNT(id)qtd 
+	FROM cid_categoria 
+    LIMIT 5; 
+-- 1.775
+    
+EXPLAIN ANALYZE 
+	SELECT * FROM cid_categoria 
+		WHERE id = 'F00';
+-- O resultado com o Explain Analyze também mostrou-se rápido, não necessitando index.
 
-CREATE INDEX id_cid ON cid_capitulo(id);
-CREATE INDEX id_cat ON cid_capitulo(cat_inicio);
 
-select * from cid_capitulo where cat_inicio = 'F00';
+-- Tabela de Grupo dos CIDs ****************************************************************************************
+SELECT * 
+	FROM cid_grupo 
+	LIMIT 5;
+    
+SELECT COUNT(id)qtd 
+	FROM cid_grupo 
+    LIMIT 5; 
+-- 275
 
--- SIM DATA
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM cid_grupo 
+        WHERE cat_inicio = 'F00';
+-- O retorno dessa consulta mostrou-se eficiênte devido ao tamanho da tabela, não necessitando index.
+
+-- Tabela de Sub Categoria dos CIDs ************************************************************************************
+SELECT * 
+	FROM cid_sub_categoria 
+	LIMIT 5;
+    
+SELECT COUNT(id)qtd 
+	FROM cid_sub_categoria 
+    LIMIT 5; 
+-- 8.350
+
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM cid_sub_categoria 
+        WHERE id = 'F000';
+-- Como a tabela possui uma volumetria pouco maior que as outras, o desempenho não foi tão satisfatório, demorando
+-- poucos milissegundos, além de ter escaneado a tabela toda para encontrar o resultado. Entretando, não estarei criando index agora
+
+
+-- SCHEMA SIM DATA ****************************************************************************************************
 USE sim_data;
-SELECT * FROM Mortalidade_Geral_2012 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2012(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2012;
 
-SELECT * FROM Mortalidade_Geral_2013 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2013(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2013;
+SELECT COUNT(1) 
+	FROM Mortalidade_Geral_2012;
+-- 1.181.167
 
-SELECT * FROM Mortalidade_Geral_2014 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2014(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2014;
+SELECT * 
+	FROM Mortalidade_Geral_2012 
+    LIMIT 10;
 
-SELECT * FROM Mortalidade_Geral_2012 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2015(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2015;
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM Mortalidade_Geral_2012 
+        WHERE LINHAA = '*C61X';
+-- Diferentemente do comportamento do schema de CIDs, essa consulta necessitou de um custo maior, além de ser executado
+-- em mais tempo, sendo necessário criar index, uma vez que será uma tabela muito utilizada para futuras análises.
 
-SELECT * FROM Mortalidade_Geral_2016 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2016(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2016;
+-- Os indexs serao criados de acordo com a necessidade dos campos para análise    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2012(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2012;
 
-SELECT * FROM Mortalidade_Geral_2017 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2017(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2017;
 
-SELECT * FROM Mortalidade_Geral_2018 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2018(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2018;
 
-SELECT * FROM Mortalidade_Geral_2019 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2019(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2019;
+SELECT COUNT(1) 
+	FROM Mortalidade_Geral_2013;
+-- 1.206.736
 
-SELECT * FROM Mortalidade_Geral_2020 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2020(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2020;
+-- Como observado, as tabelas com registros sobre mortalidade possuem uma volumetria maior.
+-- A utilizacao de index em todas irá facilitiar a acelerar as consultas durante futuras análises.
 
-SELECT * FROM Mortalidade_Geral_2021 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2021(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2021;
+SELECT * 
+	FROM Mortalidade_Geral_2013 
+    LIMIT 10;
+    
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM Mortalidade_Geral_2013 
+        WHERE LINHAA = '*C61X';
 
-SELECT * FROM Mortalidade_Geral_2022 LIMIT 10;
-CREATE INDEX cid_obito ON Mortalidade_Geral_2022(LINHAA(100));
-SHOW INDEXES FROM Mortalidade_Geral_2022;
+-- Assim como visto anteriormente, o comportamento é custoso devido a volumetria da tabela. Essa busca
+-- durou cerca de 4s para percorrer todas as linhas. Por conta disso, os indexes serao utilizados visando
+-- otimizar o tempo de execucao.
 
-SELECT * from Mortalidade_Geral_2012 where LINHAA IN ('*F000','*F001','*F002', '*F009','*G300','*G301','*G308','*G309');
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2013(LINHAA(100));
+    
+EXPLAIN ANALYZE 
+	SELECT * 
+		FROM Mortalidade_Geral_2013 
+        WHERE LINHAA = '*C61X';
+        
+-- Como retornado, o custo foi menor, tornando a busca mais eficiente. O tempo de execucao reduziu para cerca de 0,5s
+-- uma melhoria comparado a tabela sem index. Essas pequenas melhorias irao otimizar na analise, visto que
+-- LINHAA sera um campo frequentemente utilizado.
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2013;
 
-select count(*) from Mortalidade_Geral_2012;
-SELECT * from Mortalidade_Geral_2022 WHERE DTOBITO = 21042022;
 
-select * from Nacionalidade;
-select * from Ocupacao;
 
+
+SELECT * 
+	FROM Mortalidade_Geral_2014 
+	LIMIT 10;
+    
+CREATE 
+	INDEX cid_obito 
+    ON Mortalidade_Geral_2014(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2014;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2012 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2015(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2015;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2016 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2016(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2016;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2017 
+	LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2017(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2017;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2018 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 	
+	ON Mortalidade_Geral_2018(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2018;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2019 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2019(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2019;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2020 
+		LIMIT 10;
+        
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2020(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2020;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2021 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2021(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2021;
+
+
+
+
+
+SELECT * 
+	FROM Mortalidade_Geral_2022 
+    LIMIT 10;
+    
+CREATE INDEX cid_obito 
+	ON Mortalidade_Geral_2022(LINHAA(100));
+    
+SHOW INDEXES 
+	FROM Mortalidade_Geral_2022;
+
+-- Idexes criados nos campos que mais serao utilizados para as analises
+
+SELECT COUNT(1) 
+	FROM Nacionalidade; 
+-- 69
+
+SELECT COUNT(1) 
+	FROM Ocupacao; 
+-- 2430
