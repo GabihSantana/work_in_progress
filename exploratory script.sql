@@ -94,11 +94,39 @@ EXPLAIN ANALYZE
 -- Os indexs serao criados de acordo com a necessidade dos campos para análise    
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2012(LINHAA(100));
+
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2012(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2012(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2012(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2012(CAUSABAS(100));
+
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2012(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2012(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2012(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2012(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2012(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2012(SEXO(1));
     
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2012;
-
-
 
 SELECT COUNT(1) 
 	FROM Mortalidade_Geral_2013;
@@ -122,6 +150,36 @@ EXPLAIN ANALYZE
 
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2013(LINHAA(100));
+
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2013(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2013(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2013(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2013(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2013(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2013(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2013(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2013(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2013(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2013(SEXO(1));
     
 EXPLAIN ANALYZE 
 	SELECT * 
@@ -146,6 +204,36 @@ CREATE
 	INDEX cid_obito 
     ON Mortalidade_Geral_2014(LINHAA(100));
     
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2014(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2014(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2014(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2014(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2014(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2014(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2014(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2014(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2014(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2014(SEXO(1));
+    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2014;
 
@@ -154,12 +242,42 @@ SHOW INDEXES
 
 
 SELECT * 
-	FROM Mortalidade_Geral_2012 
+	FROM Mortalidade_Geral_2015 
     LIMIT 10;
     
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2015(LINHAA(100));
+
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2015(LINHAB(100));
     
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2015(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2015(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2015(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2015(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2015(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2015(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2015(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2015(ESTCIV(100));
+
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2015(SEXO(1));    
+
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2015;
 
@@ -173,6 +291,36 @@ SELECT *
     
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2016(LINHAA(100));
+    
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2016(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2016(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2016(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2016(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2016(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2016(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2016(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2016(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2016(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2016(SEXO(1));
     
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2016;
@@ -188,6 +336,36 @@ SELECT *
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2017(LINHAA(100));
     
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2017(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2017(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2017(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2017(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2017(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2017(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2017(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2017(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2017(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2017(SEXO(1));
+    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2017;
 
@@ -201,6 +379,36 @@ SELECT *
     
 CREATE INDEX cid_obito 	
 	ON Mortalidade_Geral_2018(LINHAA(100));
+    
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2018(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2018(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2018(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2018(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2018(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2018(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2018(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2018(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2018(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2018(SEXO(1));
     
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2018;
@@ -216,6 +424,36 @@ SELECT *
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2019(LINHAA(100));
     
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2019(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2019(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2019(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2019(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2019(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2019(NATURAL0(100));
+
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2019(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2019(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2019(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2019(SEXO(1));
+    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2019;
 
@@ -229,6 +467,36 @@ SELECT *
         
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2020(LINHAA(100));
+    
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2020(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2020(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2020(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2020(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2020(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2020(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2020(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2020(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2020(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2020(SEXO(1));
     
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2020;
@@ -244,6 +512,36 @@ SELECT *
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2021(LINHAA(100));
     
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2021(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2021(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2021(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2021(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2021(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2021(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2021(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2021(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2021(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2021(SEXO(1));
+    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2021;
 
@@ -258,6 +556,36 @@ SELECT *
 CREATE INDEX cid_obito 
 	ON Mortalidade_Geral_2022(LINHAA(100));
     
+CREATE INDEX cid_obit_B 
+	ON Mortalidade_Geral_2022(LINHAB(100));
+    
+CREATE INDEX cid_obit_C 
+	ON Mortalidade_Geral_2022(LINHAC(100));
+    
+CREATE INDEX cid_obit_D
+	ON Mortalidade_Geral_2022(LINHAD(100));
+    
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2022(CAUSABAS(100));
+    
+CREATE INDEX idade 
+	ON Mortalidade_Geral_2022(IDADE(100));
+    
+CREATE INDEX nacionalidade 
+	ON Mortalidade_Geral_2022(NATURAL0(100));
+    
+CREATE INDEX ocupacao 
+	ON Mortalidade_Geral_2022(OCUP(100));
+    
+CREATE INDEX raca 
+	ON Mortalidade_Geral_2022(RACACOR(100));
+    
+CREATE INDEX estado_civil 
+	ON Mortalidade_Geral_2022(ESTCIV(100));
+    
+CREATE INDEX sexo 
+	ON Mortalidade_Geral_2022(SEXO(1));
+    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2022;
 
@@ -270,3 +598,6 @@ SELECT COUNT(1)
 SELECT COUNT(1) 
 	FROM Ocupacao; 
 -- 2430
+
+
+
