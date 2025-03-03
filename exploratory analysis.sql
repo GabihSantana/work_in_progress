@@ -23,6 +23,9 @@ SELECT *
 	G30	G32	Outras doenças degenerativas do sistema nervoso
 */
 
+SELECT * from cid_sub_categoria
+	WHERE id like lower('%x%');
+
 SELECT * 
 	FROM cid_sub_categoria
 	WHERE descricao like lower('%alzheimer%');
@@ -89,6 +92,47 @@ SELECT linha, CID, COUNT(*)qtd_casos
 	LINHAD	*G300	17
 	LINHAD	*G301	55
 */
+
+SELECT COLUMN_NAME
+	FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Mortalidade_Geral_2012';
+    
+CALL sim_data.SPR_Analise_Exploratoria('Mortalidade_Geral_2012');
+
+SELECT * from Mortalidade_Geral_2012_analise;
+
+-- Análise
+SELECT AVG(CAST(Idade as UNSIGNED)) FROM Mortalidade_Geral_2012_analise;
+SELECT MAX(CAST(Idade as UNSIGNED)) FROM Mortalidade_Geral_2012_analise;
+SELECT MIN(CAST(Idade as UNSIGNED)) FROM Mortalidade_Geral_2012_analise;
+
+CALL SPR_Analise_Exploratoria_Paliativa('Mortalidade_Geral_2012_analise');
+
+SELECT Sexo, Count(Sexo) from Mortalidade_Geral_2012_analise GROUP BY Sexo;
+SELECT RacaCor, Count(RacaCor) from Mortalidade_Geral_2012_analise GROUP BY RacaCor;
+SELECT EstadoCivil, Count(EstadoCivil) from Mortalidade_Geral_2012_analise GROUP BY EstadoCivil;
+
+SELECT * FROM Mortalidade_Geral_2012_analise_Previa;
+
+SELECT * FROM Mortalidade_Geral_2012_analise WHERE Idade = 42;
+
+DESC Mortalidade_Geral_2012_analise;
+
+SELECT * FROM Mortalidade_Geral_2012_analise
+	WHERE LINHAA NOT IN ('F000', 'F001', 'F002', 'F009', 'G300', 'G301', 'G308', 'G309');
+SELECT COUNT(contador) FROM Mortalidade_Geral_2012_analise;
+
+drop table Mortalidade_Geral_2012_analise;
+    
+DROP TABLE Mortalidade_Geral_2012_Alzheimer;
+
+select * from Mortalidade_Geral_2012_Alzheimer LIMIT 10;
+
+SELECT contador from Mortalidade_Geral_2012_Alzheimer order by contador;
+
+select count(contador) from Mortalidade_Geral_2012_Alzheimer; -- 10124
+select count(distinct contador) from Mortalidade_Geral_2012_Alzheimer; -- 9741
+		
         
 SELECT * 
 	FROM Mortalidade_Geral_2012
@@ -119,14 +163,21 @@ SELECT
     a.assistmed, 
     a.necropsia, 
     a.linhaa, 
+    d.descricao as LinhaA_Cid,
     a.linhab, 
+	x.descricao as LinhaB_Cid,
     a.linhac, 
-    d.descricao as LinhaC_Cid,
+    y.descricao as LinhaC_Cid,
+	a.linhad, 
+    z.descricao as LinhaD_Cid,
     a.causabas
 FROM Mortalidade_Geral_2012 a
 LEFT JOIN Ocupacao b ON a.ocup = b.Codigo
 LEFT JOIN Idade c ON a.idade = c.Cod_Idade
-INNER JOIN cid10.cid_sub_categoria d ON REPLACE(a.LINHAC, '*','') = d.id
+LEFT JOIN cid10.cid_sub_categoria d ON REPLACE(a.LINHAA, '*','') = d.id
+LEFT JOIN cid10.cid_sub_categoria x ON REPLACE(a.LINHAB, '*','') = x.id
+LEFT JOIN cid10.cid_sub_categoria y ON REPLACE(a.LINHAC, '*','') = y.id
+LEFT JOIN cid10.cid_sub_categoria z ON REPLACE(a.LINHAD, '*','') = z.id
 LEFT JOIN Nacionalidade e ON e.Cod_locais = a.natural0
 WHERE LINHAB IN ('*F000', '*F001', '*F002', '*F009');
 
