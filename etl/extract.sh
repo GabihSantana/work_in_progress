@@ -36,6 +36,7 @@ done
 
 
 echo "===============NORMALIZE ENCODING================"
+
 mkdir utf8;
 
 iconv -f US-ASCII -t UTF-8 Mortalidade_Geral_2012.csv > ./utf8/Mortalidade_Geral_2012.csv

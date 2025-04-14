@@ -1,9 +1,6 @@
+CREATE DATABASE IF NOT EXISTS sim_data CHARSET utf8;
 
-DROP DATABASE IF EXISTS cid10;
-
-CREATE DATABASE cid10 CHARSET utf8;
-
-use cid10;
+use sim_data;
 
 DROP TABLE IF EXISTS cid_capitulo;
 
