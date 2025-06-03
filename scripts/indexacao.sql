@@ -86,28 +86,32 @@ SELECT *
     LIMIT 10;
 
 EXPLAIN ANALYZE 
-	SELECT * 
-		FROM Mortalidade_Geral_2012 
-        WHERE LINHAA = '*C61X';
+	SELECT t.* 
+		FROM Mortalidade_Geral_2012 t
+        WHERE CAUSABAS LIKE 'G300%';
+        
+SHOW INDEX FROM Mortalidade_Geral_2012;
+
+-- -> Filter: (t.CAUSABAS like 'G300%')  (cost=131750 rows=125684) (actual time=287..4338 rows=54 loops=1)
+-- -> Table scan on t  (cost=131750 rows=1.13e+6) (actual time=0.401..4175 rows=1.18e+6 loops=1)
+ 
+CREATE INDEX cid_causa_basica_obito 
+	ON Mortalidade_Geral_2012(CAUSABAS(100));
+    
+EXPLAIN ANALYZE 
+	SELECT t.* 
+		FROM Mortalidade_Geral_2012 t
+        WHERE CAUSABAS LIKE 'G300%';
+ 
+-- -> Filter: (t.CAUSABAS like 'G300%')  (cost=65.8 rows=54) (actual time=0.0318..17.9 rows=54 loops=1)
+-- -> Index range scan on t using cid_causa_basica_obito over (unprintable_blob_value <= CAUSABAS <= unprintable_blob_value)  (cost=65.8 rows=54) (actua...
+        
+DESCRIBE Mortalidade_Geral_2012;
+        
 -- Diferentemente do comportamento do schema de CIDs, essa consulta necessitou de um custo maior, além de ser executado
 -- em mais tempo, sendo necessário criar index, uma vez que será uma tabela muito utilizada para futuras análises.
 
--- Os indexs serao criados de acordo com a necessidade dos campos para análise    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2012(LINHAA(100));
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2012(LINHAA(100));
-
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2012(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2012(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2012(LINHAD(100));
-    
+-- Os indexs serao criados de acordo com a necessidade dos campos para análise        
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2012(CAUSABAS(100));
 
@@ -130,7 +134,7 @@ CREATE INDEX sexo
 	ON Mortalidade_Geral_2012(SEXO(1));
     
 SHOW INDEXES 
-	FROM Mortalidade_Geral_2012;
+	FROM sim_data.Mortalidade_Geral_2012;
 
 SELECT COUNT(1) 
 	FROM Mortalidade_Geral_2013;
@@ -146,24 +150,12 @@ SELECT *
 EXPLAIN ANALYZE 
 	SELECT * 
 		FROM Mortalidade_Geral_2013 
-        WHERE LINHAA = '*C61X';
+        WHERE CAUSABAS = '*C61X';
 
 -- Assim como visto anteriormente, o comportamento é custoso devido a volumetria da tabela. Essa busca
 -- durou cerca de 4s para percorrer todas as linhas. Por conta disso, os indexes serao utilizados visando
 -- otimizar o tempo de execucao.
 
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2013(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2013(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2013(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2013(LINHAD(100));
-    
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2013(CAUSABAS(100));
     
@@ -188,11 +180,11 @@ CREATE INDEX sexo
 EXPLAIN ANALYZE 
 	SELECT * 
 		FROM Mortalidade_Geral_2013 
-        WHERE LINHAA = '*C61X';
+        WHERE CAUSABAS = '*C61X';
         
 -- Como retornado, o custo foi menor, tornando a busca mais eficiente. O tempo de execucao reduziu para cerca de 0,5s
 -- uma melhoria comparado a tabela sem index. Essas pequenas melhorias irao otimizar na analise, visto que
--- LINHAA sera um campo frequentemente utilizado.
+-- causabas sera um campo frequentemente utilizado.
     
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2013;
@@ -200,15 +192,6 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2014 
 	LIMIT 10;
-
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2014(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2014(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2014(LINHAD(100));
     
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2014(CAUSABAS(100));
@@ -231,26 +214,9 @@ CREATE INDEX estado_civil
 CREATE INDEX sexo 
 	ON Mortalidade_Geral_2014(SEXO(1));
     
-CREATE 
-	INDEX cid_obito 
-    ON Mortalidade_Geral_2014(LINHAA(100));
-    
 SHOW INDEXES 
 	FROM Mortalidade_Geral_2014;
 
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2015(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2015(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2015(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2015(LINHAD(100));
-    
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2015(CAUSABAS(100));
 
@@ -279,18 +245,6 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2016 
     LIMIT 10;
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2016(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2016(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2016(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2016(LINHAD(100));
     
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2016(CAUSABAS(100));
@@ -321,18 +275,6 @@ SELECT *
 	FROM Mortalidade_Geral_2017 
 	LIMIT 10;
     
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2017(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2017(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2017(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2017(LINHAD(100));
-    
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2017(CAUSABAS(100));
     
@@ -362,18 +304,6 @@ SELECT *
 	FROM Mortalidade_Geral_2018 
     LIMIT 10;
     
-CREATE INDEX cid_obito 	
-	ON Mortalidade_Geral_2018(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2018(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2018(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2018(LINHAD(100));
-    
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2018(CAUSABAS(100));
     
@@ -402,19 +332,7 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2019 
     LIMIT 10;
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2019(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2019(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2019(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2019(LINHAD(100));
-    
+
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2019(CAUSABAS(100));
     
@@ -443,19 +361,7 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2020 
 		LIMIT 10;
-        
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2020(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2020(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2020(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2020(LINHAD(100));
-    
+
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2020(CAUSABAS(100));
     
@@ -484,19 +390,7 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2021 
     LIMIT 10;
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2021(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2021(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2021(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2021(LINHAD(100));
-    
+  
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2021(CAUSABAS(100));
     
@@ -525,19 +419,6 @@ SHOW INDEXES
 SELECT * 
 	FROM Mortalidade_Geral_2022 
     LIMIT 10;
-    
-CREATE INDEX cid_obito 
-	ON Mortalidade_Geral_2022(LINHAA(100));
-    
-CREATE INDEX cid_obit_B 
-	ON Mortalidade_Geral_2022(LINHAB(100));
-    
-CREATE INDEX cid_obit_C 
-	ON Mortalidade_Geral_2022(LINHAC(100));
-    
-CREATE INDEX cid_obit_D
-	ON Mortalidade_Geral_2022(LINHAD(100));
-    
 CREATE INDEX cid_causa_basica_obito 
 	ON Mortalidade_Geral_2022(CAUSABAS(100));
     

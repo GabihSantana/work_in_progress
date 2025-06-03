@@ -7,7 +7,7 @@ BEGIN
     DECLARE TabelaFiltrada VARCHAR(100);
     DECLARE nomeTabelaFinal VARCHAR(100);
     
-    SET CIDs := '''F000'', ''F001'', ''F002'', ''F009'', ''G300'', ''G301'', ''G308'', ''G309''';
+    SET CIDs := '''F000'', ''F001'', ''F002'', ''F009'', ''G300'', ''G301'', ''G308'', ''G309'''; -- CIDs de Alzheimer
 	SET TabelaFiltrada := CONCAT(tabela, '_filtrada');
     SET nomeTabelaFinal := CONCAT(tabela, '_analise');
 
@@ -22,7 +22,7 @@ BEGIN
 	EXECUTE clear2;
 	DEALLOCATE PREPARE clear2;
 
-	-- Criar tabela temporária com os casos de Alzheimer - Extrair dados da tabela principal
+	-- Criar tabela filtrada
 SET @query1 = CONCAT('
     CREATE TABLE IF NOT EXISTS ', TabelaFiltrada, ' AS
     SELECT DISTINCT CONTADOR,
@@ -95,7 +95,7 @@ SET @query1 = CONCAT('
     FROM ', tabela, ' 
     WHERE 
 		IDADE >= ''460'' AND 
-        CAUSABAS IN (', CIDs, ')');
+        CAUSABAS IN (', CIDs, ')'); -- idade 460 -> 60 anos
     
 	PREPARE stmt from @query1;
     EXECUTE stmt;

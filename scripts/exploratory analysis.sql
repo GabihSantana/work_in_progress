@@ -1,7 +1,7 @@
 USE cid10;
 
 SELECT * 
-	FROM cid_capitulo;
+	FROM cid10.cid_capitulo;
 /*
 	F00	F99	V - Transtornos mentais e comportamentais
 	G00	G99	VI - Doenças do sistema nervoso
@@ -26,6 +26,9 @@ SELECT *
 SELECT * from cid_sub_categoria
 	WHERE id like lower('%x%');
 
+SELECT * FROM sim_data.Idade 
+	WHERE Cod_Idade = 460;
+
 SELECT * 
 	FROM cid_sub_categoria
 	WHERE descricao like lower('%alzheimer%');
@@ -39,6 +42,10 @@ G301	Doença de Alzheimer de início tardio
 G308	Outras formas de doença de Alzheimer
 G309	Doença de Alzheimer não especificada
 */
+
+SELECT * 
+	FROM cid10.cid_sub_categoria
+    WHERE id = 'R54X';
 
 SELECT * 
 	FROM Idade
@@ -1053,6 +1060,7 @@ use sim_data;
 
 -- drop table tb_alvo;
     
+-- Criando a tabela que será exportada para utilizar no ambiente Jupyter
 CREATE TABLE tb_alvo as 
 	SELECT *, 2012 as ANO FROM Mortalidade_Geral_2012_filtrada
 		UNION ALL
@@ -1078,15 +1086,7 @@ CREATE TABLE tb_alvo as
     
 select count(*) from tb_alvo;
 -- 211.593
-    
-select NATURAL0, COUNT(NATURAL0)qtd FROM tb_alvo GROUP BY NATURAL0;
-    
-Select * from tb_alvo where contador = 42081;
-    
-select count(*) from tb_alvo;
-    
-select racacor,count(1)qtd from sim_data.tb_alvo group by racacor order by qtd desc limit 10;
-
+                
 CALL sim_data.SPR_Enriquece_Analise('tb_alvo');
 -- tb_alvo_analise tb_alvo_filtrada
 CALL sim_data.SPR_Analise_Exploratoria('tb_alvo_analise');
@@ -1094,7 +1094,11 @@ CALL sim_data.SPR_Analise_Exploratoria('tb_alvo_analise');
 select * from tb_alvo_analise_Previa; 
 -- 19.105 LINHAA, 137.213 mulheres VS 74.359 homens, 152.037 brancos, 42.343 pardos, 106.819 viuvos e 59.113 casados, 58.024 esc 1_3 e 38.721 nenhuma esc e 40.772 esc 4_7
 
-
+SELECT Sexo, COUNT(*)qtd
+	FROM tb_alvo_analise
+    WHERE RacaCor = 'Branca'
+    GROUP BY Sexo
+    ORDER BY Sexo;
 
 SELECT Sexo, CAUSABAS, count(Sexo)qtd 
 	FROM tb_alvo_analise
